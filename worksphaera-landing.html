@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Worksphaera — Remote AI Opportunities Made Simple</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    /* ── Brand palette from flyer ── */
+    --bg-deep:    #060C1F;
+    --bg-navy:    #0B1535;
+    --bg-indigo:  #0F1D4A;
+    --bg-purple:  #1A1060;
+
+    --cyan:       #00E5FF;
+    --cyan-dim:   #00B8D9;
+    --cyan-glow:  rgba(0,229,255,0.20);
+
+    --magenta:    #E040FB;
+    --magenta-dim:#B700D8;
+    --magenta-glow: rgba(224,64,251,0.18);
+
+    --white:      #FFFFFF;
+    --text-muted: rgba(255,255,255,0.58);
+    --text-faint: rgba(255,255,255,0.30);
+
+    --card-bg:    rgba(255,255,255,0.04);
+    --card-border:rgba(255,255,255,0.09);
+    --card-border-cyan: rgba(0,229,255,0.28);
+
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+
+    --font-head: 'Sora', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg-deep);
+    color: var(--white);
+    line-height: 1.65;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── PAGE BACKGROUND ── */
+  body {
+    background:
+      radial-gradient(ellipse 110% 55% at 0% 0%,   rgba(26,16,96,0.85)  0%, transparent 55%),
+      radial-gradient(ellipse 90%  60% at 100% 100%, rgba(10,5,40,0.9)   0%, transparent 55%),
+      radial-gradient(ellipse 70%  50% at 50%  -5%,  rgba(0,229,255,0.07) 0%, transparent 60%),
+      linear-gradient(160deg, #0B1535 0%, #060C1F 50%, #100730 100%);
+    min-height: 100vh;
+  }
+
+  /* ── SUBTLE GRID TEXTURE ── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  section, nav, footer { position: relative; z-index: 1; }
+
+  /* ── LOGO BAR ── */
+  .logo-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 24px 0;
+  }
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-icon {
+    width: 38px; height: 38px;
+    border: 1.5px solid var(--cyan-dim);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,229,255,0.06);
+  }
+  .logo-icon svg { width: 20px; height: 20px; }
+  .logo-wordmark {
+    font-family: var(--font-head);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: var(--white);
+    line-height: 1;
+  }
+  .logo-wordmark span { color: var(--cyan); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 52px 28px 68px;
+    text-align: center;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(0,229,255,0.08);
+    border: 1px solid rgba(0,229,255,0.25);
+    border-radius: 100px;
+    padding: 7px 18px;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--cyan);
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-badge .pulse-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--cyan);
+    animation: pulseDot 2s ease infinite;
+    flex-shrink: 0;
+  }
+  @keyframes pulseDot {
+    0%,100% { opacity:1; transform:scale(1); }
+    50%      { opacity:0.35; transform:scale(1.5); }
+  }
+
+  .hero h1 {
+    font-family: var(--font-head);
+    font-size: clamp(28px, 8vw, 46px);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  .hero h1 .line-cyan    { color: var(--cyan); }
+  .hero h1 .line-magenta { color: var(--magenta); font-style: italic; }
+
+  .hero p {
+    font-size: 16.5px;
+    color: var(--text-muted);
+    max-width: 340px;
+    margin: 0 auto 40px;
+    font-weight: 300;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  /* ── CTA BUTTON ── */
+  .cta-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--cyan) 0%, #00B8D9 100%);
+    color: #060C1F;
+    font-family: var(--font-head);
+    font-size: 15.5px;
+    font-weight: 700;
+    padding: 17px 30px;
+    border-radius: 100px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 28px var(--cyan-glow), 0 0 0 1px rgba(0,229,255,0.2);
+    animation: fadeUp 0.7s 0.3s ease both;
+    letter-spacing: -0.1px;
+  }
+  .cta-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px var(--cyan-glow), 0 0 60px rgba(0,229,255,0.12);
+  }
+  .cta-primary:active { transform: translateY(0); }
+  .cta-primary .wa-icon { width: 21px; height: 21px; flex-shrink: 0; }
+
+  /* ── STAT STRIP ── */
+  .stat-row {
+    display: flex;
+    gap: 0;
+    justify-content: center;
+    margin-top: 48px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    animation: fadeUp 0.7s 0.4s ease both;
+  }
+  .stat-item {
+    flex: 1;
+    text-align: center;
+    padding: 18px 8px;
+    background: var(--card-bg);
+  }
+  .stat-item + .stat-item { border-left: 1px solid var(--card-border); }
+  .stat-num {
+    font-family: var(--font-head);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--cyan);
+    display: block;
+    letter-spacing: -0.5px;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 400;
+    letter-spacing: 0.2px;
+  }
+
+  /* ── SCROLL HINT ── */
+  .scroll-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-top: 44px;
+    color: var(--text-faint);
+    font-size: 10.5px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    animation: fadeUp 0.7s 0.5s ease both;
+  }
+  .scroll-line {
+    width: 1px; height: 30px;
+    background: linear-gradient(180deg, var(--cyan) 0%, transparent 100%);
+    animation: scrollDrop 2s ease infinite;
+  }
+  @keyframes scrollDrop {
+    0%   { opacity:0; transform:scaleY(0); transform-origin:top; }
+    30%  { opacity:1; transform:scaleY(1); }
+    70%  { opacity:1; }
+    100% { opacity:0; transform:translateY(10px); }
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,229,255,0.12), rgba(224,64,251,0.08), transparent);
+    margin: 0 20px;
+  }
+
+  /* ── SECTION ── */
+  .section { padding: 68px 24px; }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--magenta);
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: var(--font-head);
+    font-size: clamp(22px, 6vw, 32px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    margin-bottom: 10px;
+  }
+  .section-title .accent { color: var(--cyan); }
+  .section-sub {
+    font-size: 15.5px;
+    color: var(--text-muted);
+    max-width: 340px;
+    font-weight: 300;
+    margin-bottom: 44px;
+    line-height: 1.6;
+  }
+
+  /* ── ALT SECTION BG ── */
+  .section-alt {
+    background: rgba(0,229,255,0.02);
+    border-top: 1px solid rgba(0,229,255,0.05);
+    border-bottom: 1px solid rgba(0,229,255,0.05);
+  }
+
+  /* ── HOW WE HELP GRID ── */
+  .help-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .help-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    padding: 20px 16px;
+    transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  }
+  .help-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--card-border-cyan);
+    background: rgba(0,229,255,0.05);
+  }
+  .help-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: rgba(0,229,255,0.10);
+    border: 1px solid rgba(0,229,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 12px;
+    font-size: 18px;
+  }
+  .help-card h3 {
+    font-family: var(--font-head);
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--white);
+  }
+
+  /* ── WHO BADGES ── */
+  .who-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+  }
+  .who-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 100px;
+    padding: 9px 16px;
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    cursor: default;
+  }
+  .who-badge:hover {
+    border-color: rgba(224,64,251,0.35);
+    background: rgba(224,64,251,0.06);
+    transform: scale(1.03);
+  }
+  .who-badge .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--magenta);
+    flex-shrink: 0;
+  }
+
+  /* ── WHY CARDS ── */
+  .why-grid { display: flex; flex-direction: column; gap: 12px; }
+  .why-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    padding: 20px 18px;
+    transition: border-color 0.25s ease, transform 0.25s ease;
+  }
+  .why-card:hover {
+    border-color: rgba(0,229,255,0.25);
+    transform: translateX(5px);
+  }
+  .why-check {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: rgba(0,229,255,0.10);
+    border: 1.5px solid rgba(0,229,255,0.35);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .why-check svg { width: 15px; height: 15px; }
+  .why-card h3 {
+    font-family: var(--font-head);
+    font-size: 14.5px;
+    font-weight: 600;
+    margin-bottom: 3px;
+    color: var(--white);
+  }
+  .why-card p { font-size: 13px; color: var(--text-muted); font-weight: 300; }
+
+  /* ── CONTACT LINKS ── */
+  .contact-links { display: flex; flex-direction: column; gap: 12px; }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    text-decoration: none;
+    color: var(--white);
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+  }
+  .contact-link:hover {
+    border-color: rgba(0,229,255,0.25);
+    background: rgba(0,229,255,0.04);
+    transform: translateY(-2px);
+  }
+  .contact-icon-wrap {
+    width: 42px; height: 42px;
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .contact-icon-wrap svg { width: 21px; height: 21px; }
+  .contact-link-label {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-bottom: 2px;
+    letter-spacing: 0.2px;
+  }
+  .contact-link-value {
+    font-size: 14.5px;
+    font-weight: 500;
+  }
+  .contact-arrow {
+    margin-left: auto;
+    color: var(--text-faint);
+    font-size: 22px;
+    transition: transform 0.2s ease, color 0.2s ease;
+    line-height: 1;
+  }
+  .contact-link:hover .contact-arrow {
+    transform: translateX(4px);
+    color: var(--cyan);
+  }
+
+  /* ── FINAL CTA ── */
+  .final-cta {
+    text-align: center;
+    padding: 72px 28px 80px;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 110%, rgba(0,229,255,0.08) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 40% at 50% 110%, rgba(224,64,251,0.06) 0%, transparent 55%);
+  }
+  .final-cta h2 {
+    font-family: var(--font-head);
+    font-size: clamp(24px, 7vw, 36px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+  .final-cta h2 span { color: var(--cyan); }
+  .final-cta p {
+    font-size: 15.5px;
+    color: var(--text-muted);
+    max-width: 310px;
+    margin: 0 auto 40px;
+    font-weight: 300;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 28px 24px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  footer p { font-size: 12.5px; color: var(--text-faint); }
+  footer span { color: var(--cyan); font-weight: 500; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(22px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .fade-in {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .fade-in.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- LOGO -->
+<nav class="logo-bar">
+  <div class="logo-wrap">
+    <div class="logo-icon">
+      <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 2L17 6V14L10 18L3 14V6L10 2Z" stroke="#00E5FF" stroke-width="1.4" stroke-linejoin="round"/>
+        <path d="M10 6L14 8.5V13.5L10 16L6 13.5V8.5L10 6Z" fill="rgba(0,229,255,0.15)" stroke="#00E5FF" stroke-width="1" stroke-linejoin="round"/>
+        <circle cx="10" cy="10" r="1.5" fill="#00E5FF"/>
+      </svg>
+    </div>
+    <div class="logo-wordmark">WORK<span>SPHAERA</span></div>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-badge">
+    <span class="pulse-dot"></span>
+    Now Accepting New Members
+  </div>
+
+  <h1>
+    Remote AI<br />
+    <span class="line-cyan">Opportunities</span><br />
+    <span class="line-magenta">Made Simple</span>
+  </h1>
+
+  <p>We help individuals discover, understand, and get started with AI training and remote work opportunities.</p>
+
+  <a href="https://wa.me/14709128654?text=Hello%20Worksphaera%2C%20I%27m%20interested%20in%20AI%20opportunities%20and%20remote%20work%20programs.%20I%27d%20like%20to%20learn%20how%20to%20get%20started." class="cta-primary" target="_blank" rel="noopener">
+    <svg class="wa-icon" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.334.101 11.893c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652c1.746.943 3.71 1.444 5.71 1.444h.006c6.585 0 11.946-5.336 11.949-11.896.002-3.176-1.24-6.165-3.48-8.447zM12.045 21.785h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.977.997-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.893-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.889-9.889 9.889zm5.422-7.407c-.297-.149-1.758-.867-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z" fill="currentColor"/></svg>
+    Chat With Us on WhatsApp
+  </a>
+
+  <div class="stat-row">
+    <div class="stat-item">
+      <span class="stat-num">AI</span>
+      <span class="stat-label">Opportunities</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">24h</span>
+      <span class="stat-label">Response Time</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">Free</span>
+      <span class="stat-label">To Start</span>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ HOW WE HELP ══ -->
+<section class="section fade-in">
+  <div class="section-tag">What We Do</div>
+  <h2 class="section-title">How We <span class="accent">Help You</span></h2>
+  <p class="section-sub">Everything you need to start earning with AI — all in one place.</p>
+
+  <div class="help-grid">
+    <div class="help-card">
+      <div class="help-icon">🧭</div>
+      <h3>Account Setup Guidance</h3>
+    </div>
+    <div class="help-card">
+      <div class="help-icon">🚀</div>
+      <h3>Platform Onboarding Support</h3>
+    </div>
+    <div class="help-card">
+      <div class="help-icon">📋</div>
+      <h3>Application Assistance</h3>
+    </div>
+    <div class="help-card">
+      <div class="help-icon">📡</div>
+      <h3>AI Opportunity Updates</h3>
+    </div>
+    <div class="help-card">
+      <div class="help-icon">💡</div>
+      <h3>Weekly Earning Strategies</h3>
+    </div>
+    <div class="help-card">
+      <div class="help-icon">🛡️</div>
+      <h3>Account Management Support</h3>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ WHO THIS IS FOR ══ -->
+<section class="section section-alt fade-in">
+  <div class="section-tag">Who It's For</div>
+  <h2 class="section-title">Built for <span class="accent">Everyone</span></h2>
+  <p class="section-sub">No matter your background — if you have a device and internet, you qualify.</p>
+
+  <div class="who-grid">
+    <div class="who-badge"><span class="dot"></span>Students</div>
+    <div class="who-badge"><span class="dot"></span>Freelancers</div>
+    <div class="who-badge"><span class="dot"></span>Remote Workers</div>
+    <div class="who-badge"><span class="dot"></span>Career Changers</div>
+    <div class="who-badge"><span class="dot"></span>Side Hustlers</div>
+    <div class="who-badge"><span class="dot"></span>Anyone Into AI</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ WHY WORKSPHAERA ══ -->
+<section class="section fade-in">
+  <div class="section-tag">Why Us</div>
+  <h2 class="section-title">Why <span class="accent">Worksphaera</span></h2>
+  <p class="section-sub">We're not just a directory — we're your guide every step of the way.</p>
+
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-check">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5 6.5-7" stroke="#00E5FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <h3>Personalized Support</h3>
+        <p>Guidance tailored to your skill level and goals — not a one-size-fits-all approach.</p>
+      </div>
+    </div>
+    <div class="why-card">
+      <div class="why-check">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5 6.5-7" stroke="#00E5FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <h3>Fast Response Times</h3>
+        <p>We're active and responsive. Get answers within hours, not days.</p>
+      </div>
+    </div>
+    <div class="why-card">
+      <div class="why-check">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5 6.5-7" stroke="#00E5FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <h3>Step-by-Step Guidance</h3>
+        <p>We walk you through everything from signup to your first task completion.</p>
+      </div>
+    </div>
+    <div class="why-card">
+      <div class="why-check">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5 6.5-7" stroke="#00E5FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <h3>Updated Opportunities</h3>
+        <p>We continuously source and share the newest AI training programs and gigs.</p>
+      </div>
+    </div>
+    <div class="why-card">
+      <div class="why-check">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5 6.5-7" stroke="#00E5FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <h3>Ongoing Support</h3>
+        <p>Our support doesn't end at onboarding — we stay with you as you grow.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ GET IN TOUCH ══ -->
+<section class="section section-alt fade-in">
+  <div class="section-tag">Connect</div>
+  <h2 class="section-title">Get in <span class="accent">Touch</span></h2>
+  <p class="section-sub">Reach us on your preferred platform. We're always happy to hear from you.</p>
+
+  <div class="contact-links">
+
+    <!-- WhatsApp — no number shown, link still works -->
+    <a href="https://wa.me/14709128654?text=Hello%20Worksphaera%2C%20I%27m%20interested%20in%20AI%20opportunities%20and%20remote%20work%20programs.%20I%27d%20like%20to%20learn%20how%20to%20get%20started." class="contact-link" target="_blank" rel="noopener">
+      <div class="contact-icon-wrap" style="background:rgba(37,211,102,0.10);">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.334.101 11.893c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652c1.746.943 3.71 1.444 5.71 1.444h.006c6.585 0 11.946-5.336 11.949-11.896.002-3.176-1.24-6.165-3.48-8.447zM12.045 21.785h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.977.997-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.893-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.889-9.889 9.889zm5.422-7.407c-.297-.149-1.758-.867-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z" fill="#25D366"/></svg>
+      </div>
+      <div>
+        <div class="contact-link-label">WhatsApp</div>
+        <div class="contact-link-value">Chat With Us</div>
+      </div>
+      <span class="contact-arrow">›</span>
+    </a>
+
+    <!-- X / Twitter -->
+    <a href="https://twitter.com/worksphaera" class="contact-link" target="_blank" rel="noopener">
+      <div class="contact-icon-wrap" style="background:rgba(255,255,255,0.05);">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="white"/></svg>
+      </div>
+      <div>
+        <div class="contact-link-label">X (Twitter)</div>
+        <div class="contact-link-value">@worksphaera</div>
+      </div>
+      <span class="contact-arrow">›</span>
+    </a>
+
+    <!-- Gmail -->
+    <a href="mailto:worksphaera@gmail.com" class="contact-link">
+      <div class="contact-icon-wrap" style="background:rgba(234,67,53,0.10);">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z" fill="#EA4335"/></svg>
+      </div>
+      <div>
+        <div class="contact-link-label">Gmail</div>
+        <div class="contact-link-value">worksphaera@gmail.com</div>
+      </div>
+      <span class="contact-arrow">›</span>
+    </a>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ FINAL CTA ══ -->
+<section class="final-cta fade-in">
+  <div class="section-tag">Take Action</div>
+  <h2>Ready to Explore<br /><span>AI Opportunities?</span></h2>
+  <p>Reach out today and let's discuss the best path based on your experience and goals.</p>
+
+  <a href="https://wa.me/14709128654?text=Hello%20Worksphaera%2C%20I%27m%20interested%20in%20AI%20opportunities%20and%20remote%20work%20programs.%20I%27d%20like%20to%20learn%20how%20to%20get%20started." class="cta-primary" target="_blank" rel="noopener">
+    <svg class="wa-icon" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.334.101 11.893c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652c1.746.943 3.71 1.444 5.71 1.444h.006c6.585 0 11.946-5.336 11.949-11.896.002-3.176-1.24-6.165-3.48-8.447zM12.045 21.785h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.977.997-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.893-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.889-9.889 9.889zm5.422-7.407c-.297-.149-1.758-.867-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z" fill="currentColor"/></svg>
+    Start on WhatsApp
+  </a>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <p><span>Worksphaera</span> © 2026 · All rights reserved</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
